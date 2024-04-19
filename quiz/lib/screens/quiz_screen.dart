@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data.dart' as data;
 import '../widgets/progress_bar.dart';
+import '../widgets/choice_viewer.dart';
 
 class QuizScreen extends StatefulWidget {
   static const routeName = '/quiz';
@@ -40,14 +41,16 @@ class _QuizScreenState extends State<QuizScreen> {
     // final screenWidth = MediaQuery.of(context).size.width;
 
     // calculate the progress of the user as a ratio
-    final progress = currentQuiz / quiz.length;
+    final progress = (currentQuiz + 1) / quiz.length;
 
     // use the determined ratio to determine the width of the progress indicator
     final progressWidth = _screenWidth * progress;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         title: const Text('Quiz'),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 12),
           child: ProgressBar(progressWidth),
@@ -62,7 +65,7 @@ class _QuizScreenState extends State<QuizScreen> {
               // will be used to display progress through a given quiz
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Text(
-                'Question $currentQuiz of ${quiz.length}',
+                'Question ${currentQuiz + 1} of ${quiz.length}',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 15,
@@ -70,15 +73,22 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
               ),
             ),
-            const Expanded(
+            Expanded(
               // will be used to display the question
               flex: 2,
-              child: Placeholder(),
+              child: Text(
+                quiz[currentQuiz]['question'] as String,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-            const Expanded(
+            Expanded(
               // will be used to display choices
-              flex: 2,
-              child: Placeholder(),
+              flex: 3,
+              child: ChoiceViewer(quiz[currentQuiz]['options'] as List<String>,
+                  quiz[currentQuiz]['answer'] as String),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 12),
@@ -99,7 +109,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
                 onPressed: () {
                   setState(() {
-                    if (currentQuiz < quiz.length) currentQuiz++;
+                    if (currentQuiz < quiz.length - 1) currentQuiz++;
                   });
                 },
               ),

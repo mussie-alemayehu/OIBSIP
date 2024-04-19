@@ -1,6 +1,6 @@
 import 'dart:math';
 
-final List<Map<String, dynamic>> _questions = [
+final _questions = [
   {
     "question": "Who is the author of 'The Great Gatsby'?",
     "options": [
@@ -872,15 +872,15 @@ final List<Map<String, dynamic>> _questions = [
 
 // Since the quiz should not be a very lengthy one, it should be limited to 10
 // questions at a time, which is exactly what this getter returns, 10 questions
-List<Map<String, dynamic>> get questions {
+List<Map<String, Object>> get questions {
   final rnd = Random();
   final Set indices = {};
 
   while (indices.length < 10) {
-    indices.add(rnd.nextInt(100));
+    indices.add(rnd.nextInt(118));
   }
 
-  final List<Map<String, dynamic>> qstns = [];
+  final List<Map<String, Object>> qstns = [];
   for (var index in indices) {
     qstns.add(_questions[index]);
   }
