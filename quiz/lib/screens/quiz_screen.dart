@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data.dart' as data;
+import '../widgets/progress_bar.dart';
 
 class QuizScreen extends StatefulWidget {
   static const routeName = '/quiz';
@@ -12,6 +13,8 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  bool _isInit = true;
+
   // get a list of questions from our data file
   final quiz = data.questions;
 
@@ -20,20 +23,52 @@ class _QuizScreenState extends State<QuizScreen> {
   int currentQuiz = 0;
   int? selectedAnswer;
 
+  // a variable to store the width of the screen
+  late final double _screenWidth;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      _screenWidth = MediaQuery.of(context).size.width;
+      _isInit = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+
+    // calculate the progress of the user as a ratio
+    final progress = currentQuiz / quiz.length;
+
+    // use the determined ratio to determine the width of the progress indicator
+    final progressWidth = _screenWidth * progress;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quiz'),
+        bottom: PreferredSize(
+          preferredSize: const Size(double.infinity, 12),
+          child: ProgressBar(progressWidth),
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
+            Padding(
               // will be used to display progress through a given quiz
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: Placeholder(),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                'Question $currentQuiz of ${quiz.length}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const Expanded(
               // will be used to display the question
@@ -62,7 +97,11 @@ class _QuizScreenState extends State<QuizScreen> {
                     Icon(Icons.skip_next_rounded),
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    if (currentQuiz < quiz.length) currentQuiz++;
+                  });
+                },
               ),
             ),
           ],
