@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import './quiz_screen.dart';
 
 class MainScreen extends StatefulWidget {
+  static const routeName = '/main';
+
   const MainScreen({super.key});
 
   @override

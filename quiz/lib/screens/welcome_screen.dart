@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './main_screen.dart';
+
 class WelcomeScreen extends StatelessWidget {
   static const routeName = '/welcome';
 
@@ -14,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.onPrimary,
               Theme.of(context).colorScheme.tertiary,
               // Theme.of(context).colorScheme.secondary,
             ],
@@ -27,8 +29,8 @@ class WelcomeScreen extends StatelessWidget {
               child: Center(
                 child: Container(
                   width: double.infinity,
-                  height: 120,
-                  margin: const EdgeInsets.all(16),
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  // margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(12),
@@ -37,7 +39,8 @@ class WelcomeScreen extends StatelessWidget {
                     child: Text(
                       'Welcome....',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 32,
                       ),
                     ),
                   ),
@@ -49,12 +52,13 @@ class WelcomeScreen extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () => Navigator.of(context)
+                    .pushReplacementNamed(MainScreen.routeName),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
