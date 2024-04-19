@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data.dart' as data;
 import '../widgets/progress_bar.dart';
-import '../widgets/choice_viewer.dart';
+import '../widgets/choice_item.dart';
 
 class QuizScreen extends StatefulWidget {
   static const routeName = '/quiz';
@@ -22,7 +22,11 @@ class _QuizScreenState extends State<QuizScreen> {
   // create variables to hold current question index and selected answer if
   // there is any
   int currentQuiz = 0;
-  int? selectedAnswer;
+  List<String?> selectedAnswers = List.generate(
+    10,
+    (index) => null,
+    growable: false,
+  );
 
   // a variable to store the width of the screen
   late final double _screenWidth;
@@ -75,7 +79,6 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             Expanded(
               // will be used to display the question
-              flex: 2,
               child: Text(
                 quiz[currentQuiz]['question'] as String,
                 style: const TextStyle(
@@ -87,8 +90,24 @@ class _QuizScreenState extends State<QuizScreen> {
             Expanded(
               // will be used to display choices
               flex: 3,
-              child: ChoiceViewer(quiz[currentQuiz]['options'] as List<String>,
-                  quiz[currentQuiz]['answer'] as String),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: (quiz[currentQuiz]['options'] as List)
+                    .map(
+                      (option) => InkWell(
+                        child: ChoiceItem(
+                          option: option,
+                          selected: selectedAnswers[currentQuiz],
+                        ),
+                        onTap: () {
+                          setState(() => selectedAnswers[currentQuiz] = option);
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+              // ChoiceViewer(quiz[currentQuiz]['options'] as List<String>,
+              //     quiz[currentQuiz]['answer'] as String),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 12),
@@ -100,22 +119,44 @@ class _QuizScreenState extends State<QuizScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Next'),
-                    Icon(Icons.skip_next_rounded),
+                    if (currentQuiz < quiz.length - 1) const Text('Next'),
+                    if (currentQuiz < quiz.length - 1)
+                      const Icon(Icons.skip_next_rounded),
+                    if (currentQuiz == quiz.length - 1)
+                      const Text('Show results')
                   ],
                 ),
                 onPressed: () {
-                  setState(() {
-                    if (currentQuiz < quiz.length - 1) currentQuiz++;
-                  });
+                  if (selectedAnswers[currentQuiz] != null) {
+                    if (currentQuiz < quiz.length - 1) {
+                      setState(() => currentQuiz++);
+                    } else {
+                      // show the results....
+                    }
+                  } else {
+                    showAnswerNotSelectedError();
+                  }
                 },
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // will be invoked when the user tries to proceed without choosing an answer
+  void showAnswerNotSelectedError() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Center(
+          child: Text('Choose an answer first.'),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        duration: const Duration(seconds: 1),
       ),
     );
   }
