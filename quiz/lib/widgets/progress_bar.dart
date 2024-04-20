@@ -6,8 +6,11 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // we will show the progress using a stack of containers that have different
+    // color
     return Stack(
       children: [
+        // a background container which will have a width of the screen width
         Container(
           width: double.infinity,
           height: 6,
@@ -17,6 +20,8 @@ class ProgressBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(3),
           ),
         ),
+        // a foreground container with a with a given width which is equal to
+        // the progress of the quiz
         Container(
           width: progressWidth,
           height: 6,

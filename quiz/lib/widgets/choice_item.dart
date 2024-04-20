@@ -21,6 +21,7 @@ class ChoiceItem extends StatelessWidget {
       ),
       child: Row(
         children: [
+          // the value of the option
           Expanded(
             flex: 4,
             child: Text(
@@ -30,6 +31,7 @@ class ChoiceItem extends StatelessWidget {
           ),
           Expanded(
             child: Radio(
+              // a radio button to show which item is currently chosen
               groupValue: selected,
               value: option,
               onChanged: (_) {},

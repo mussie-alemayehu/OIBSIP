@@ -18,7 +18,6 @@ class WelcomeScreen extends StatelessWidget {
             colors: [
               Theme.of(context).colorScheme.onPrimary,
               Theme.of(context).colorScheme.tertiary,
-              // Theme.of(context).colorScheme.secondary,
             ],
           ),
         ),

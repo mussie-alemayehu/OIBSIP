@@ -12,6 +12,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  // this is just a dummy main screen, it will be modified to have a more
+  // beautiful UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
