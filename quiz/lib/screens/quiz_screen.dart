@@ -40,6 +40,27 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
+  // a function that will define what the next button will do
+  void _nextQuestion() {
+    if (selectedAnswers[currentQuiz] != null) {
+      if (currentQuiz < quiz.length - 1) {
+        setState(() => currentQuiz++);
+      } else {
+        // show the results....
+      }
+    } else {
+      showAnswerNotSelectedError();
+    }
+  }
+
+  // a function that will define what the previous button will do
+  void _previousQuestion() {
+    setState(() => currentQuiz--);
+  }
+
+  // a function that will be used to show the results of the quiz
+  void _showResults() {}
+
   @override
   Widget build(BuildContext context) {
     // final screenWidth = MediaQuery.of(context).size.width;
@@ -106,40 +127,66 @@ class _QuizScreenState extends State<QuizScreen> {
                     )
                     .toList(),
               ),
-              // ChoiceViewer(quiz[currentQuiz]['options'] as List<String>,
-              //     quiz[currentQuiz]['answer'] as String),
             ),
+            // the coming widget will hold the navigation elements next and
+            // previous question
             Padding(
               padding: const EdgeInsets.only(top: 12),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              child: Row(
+                children: [
+                  // this is the previous button
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: currentQuiz == 0 ? null : _previousQuestion,
+                      child: const FittedBox(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.skip_previous_rounded),
+                            Text('Prev'),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (currentQuiz < quiz.length - 1) const Text('Next'),
-                    if (currentQuiz < quiz.length - 1)
-                      const Icon(Icons.skip_next_rounded),
-                    if (currentQuiz == quiz.length - 1)
-                      const Text('Show results')
-                  ],
-                ),
-                onPressed: () {
-                  if (selectedAnswers[currentQuiz] != null) {
-                    if (currentQuiz < quiz.length - 1) {
-                      setState(() => currentQuiz++);
-                    } else {
-                      // show the results....
-                    }
-                  } else {
-                    showAnswerNotSelectedError();
-                  }
-                },
+                  const SizedBox(width: 8),
+                  // here comes the next button
+                  Expanded(
+                    flex: 3,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (currentQuiz < quiz.length - 1) const Text('Next'),
+                          if (currentQuiz < quiz.length - 1)
+                            const Icon(Icons.skip_next_rounded),
+                          if (currentQuiz == quiz.length - 1)
+                            const Text('Show results')
+                        ],
+                      ),
+                      onPressed: () {
+                        currentQuiz == quiz.length - 1
+                            ? _showResults()
+                            : _nextQuestion();
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
