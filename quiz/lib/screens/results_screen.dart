@@ -41,7 +41,10 @@ class ResultsScreen extends StatelessWidget {
           itemCount: questions.length,
           itemBuilder: (ctx, index) => Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
-            child: const ResultItem(),
+            child: ResultItem(
+              question: questions[index],
+              userAnswer: answers[index],
+            ),
           ),
         ),
       ),
