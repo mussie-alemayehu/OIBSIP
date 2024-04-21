@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data.dart' as data;
+import '../models/question.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/choice_item.dart';
 
@@ -17,7 +18,18 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _isInit = true;
 
   // get a list of questions from our data file
-  final quiz = data.questions;
+  final List<Question> quiz = data.questions
+      .map(
+        (question) => Question(
+          question: question['question'] as String,
+          // map the returned Object to a string list
+          options: (question['options'] as List)
+              .map<String>((value) => value)
+              .toList(),
+          answer: question['answer'] as String,
+        ),
+      )
+      .toList();
 
   // create variables to hold current question index and selected answer if
   // there is any
@@ -101,7 +113,7 @@ class _QuizScreenState extends State<QuizScreen> {
             Expanded(
               // will be used to display the question
               child: Text(
-                quiz[currentQuiz]['question'] as String,
+                quiz[currentQuiz].question,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -113,7 +125,8 @@ class _QuizScreenState extends State<QuizScreen> {
               flex: 3,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: (quiz[currentQuiz]['options'] as List)
+                children: quiz[currentQuiz]
+                    .options
                     .map(
                       (option) => InkWell(
                         child: ChoiceItem(
