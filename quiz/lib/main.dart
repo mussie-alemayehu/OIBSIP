@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './screens/quiz_screen.dart';
-import './screens/main_screen.dart';
 import './screens/welcome_screen.dart';
+import './screens/main_screen.dart';
+import './screens/quiz_screen.dart';
+import './screens/results_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         // this is where the screens in the app are registered
         QuizScreen.routeName: (_) => const QuizScreen(),
         MainScreen.routeName: (_) => const MainScreen(),
+        ResultsScreen.routeName: (_) => const ResultsScreen(),
       },
     );
   }

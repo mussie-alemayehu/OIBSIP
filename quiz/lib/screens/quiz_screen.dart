@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/screens/results_screen.dart';
 
 import '../data.dart' as data;
 import '../models/question.dart';
@@ -71,7 +72,14 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   // a function that will be used to show the results of the quiz
-  void _showResults() {}
+  void _showResults() => Navigator.of(context).pushNamed(
+        ResultsScreen.routeName,
+        arguments: {
+          'questions': quiz,
+          'userAnswers':
+              selectedAnswers.map<String>((value) => value!).toList(),
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
