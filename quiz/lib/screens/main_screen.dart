@@ -17,6 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       body: Center(
         child: ElevatedButton(
           onPressed: () => Navigator.of(context).pushNamed(

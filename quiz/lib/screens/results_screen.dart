@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import './main_screen.dart';
 import '../widgets/result_item.dart';
 import '../models/question.dart';
 
@@ -35,18 +36,45 @@ class ResultsScreen extends StatelessWidget {
         title: Text('Result: $score / ${questions.length}'),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: questions.length,
-          itemBuilder: (ctx, index) => Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ResultItem(
-              question: questions[index],
-              userAnswer: answers[index],
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: ListView.builder(
+              padding: const EdgeInsets.all(0),
+              itemCount: questions.length,
+              itemBuilder: (ctx, index) => Container(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                child: ResultItem(
+                  question: questions[index],
+                  userAnswer: answers[index],
+                ),
+              ),
             ),
           ),
-        ),
+          // a finish button that will take the user to the main screen
+          Positioned(
+            bottom: 8,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context)
+                    .pushReplacementNamed(MainScreen.routeName),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Finish'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
