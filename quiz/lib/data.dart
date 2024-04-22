@@ -870,15 +870,9 @@ final _questions = [
   }
 ];
 
-// Since the quiz should not be a very lengthy one, it should be limited to 10
-// questions at a time, which is exactly what this getter returns, 10 questions
-List<Map<String, Object>> get questions {
-  final rnd = Random();
-  final Set indices = {};
-
-  while (indices.length < 10) {
-    indices.add(rnd.nextInt(118));
-  }
+// a function that will return 5 questions, a short quiz
+List<Map<String, Object>> get questions5 {
+  final Set<int> indices = _generateIndices(5);
 
   final List<Map<String, Object>> qstns = [];
   for (var index in indices) {
@@ -886,4 +880,52 @@ List<Map<String, Object>> get questions {
   }
 
   return qstns;
+}
+
+// a function that will return 10 questions
+List<Map<String, Object>> get questions10 {
+  final Set<int> indices = _generateIndices(10);
+
+  final List<Map<String, Object>> qstns = [];
+  for (var index in indices) {
+    qstns.add(_questions[index]);
+  }
+
+  return qstns;
+}
+
+// a function that will return 15 questions
+List<Map<String, Object>> get questions15 {
+  final Set<int> indices = _generateIndices(15);
+
+  final List<Map<String, Object>> qstns = [];
+  for (var index in indices) {
+    qstns.add(_questions[index]);
+  }
+
+  return qstns;
+}
+
+// a function that will return 20 questions, a long quiz
+List<Map<String, Object>> get questions20 {
+  final Set<int> indices = _generateIndices(20);
+
+  final List<Map<String, Object>> qstns = [];
+  for (var index in indices) {
+    qstns.add(_questions[index]);
+  }
+
+  return qstns;
+}
+
+// to generate the given amount of random indices
+Set<int> _generateIndices(int amount) {
+  final rnd = Random();
+  final Set<int> indices = {};
+
+  while (indices.length < amount) {
+    indices.add(rnd.nextInt(118));
+  }
+
+  return indices;
 }

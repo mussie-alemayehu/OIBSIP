@@ -18,28 +18,13 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   bool _isInit = true;
 
-  // get a list of questions from our data file
-  final List<Question> quiz = data.questions
-      .map(
-        (question) => Question(
-          question: question['question'] as String,
-          // map the returned Object to a string list
-          options: (question['options'] as List)
-              .map<String>((value) => value)
-              .toList(),
-          answer: question['answer'] as String,
-        ),
-      )
-      .toList();
+  // will be used to hold the list of questions from our data file
+  late final List<Question> quiz;
 
   // create variables to hold current question index and selected answer if
   // there is any
   int currentQuiz = 0;
-  List<String?> selectedAnswers = List.generate(
-    10,
-    (index) => null,
-    growable: false,
-  );
+  late List<String?> selectedAnswers;
 
   // a variable to store the width of the screen
   late final double _screenWidth;
@@ -50,6 +35,100 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_isInit) {
       _screenWidth = MediaQuery.of(context).size.width;
       _isInit = false;
+
+      final numberOfQns = ModalRoute.of(context)!.settings.arguments! as int;
+
+      // initialize the quiz and the list to hold the selected answers based on
+      // the number of questions selected by the user
+      switch (numberOfQns) {
+        case 5:
+          {
+            quiz = data.questions5
+                .map<Question>(
+                  (question) => Question(
+                    answer: question['answer'] as String,
+                    options: (question['options'] as List)
+                        .map<String>((value) => value as String)
+                        .toList(),
+                    question: question['question'] as String,
+                  ),
+                )
+                .toList();
+
+            selectedAnswers = List.generate(
+              5,
+              (index) => null,
+              growable: false,
+            );
+            break;
+          }
+
+        case 10:
+          {
+            quiz = data.questions10
+                .map<Question>(
+                  (question) => Question(
+                    answer: question['answer'] as String,
+                    options: (question['options'] as List)
+                        .map<String>((value) => value as String)
+                        .toList(),
+                    question: question['question'] as String,
+                  ),
+                )
+                .toList();
+
+            selectedAnswers = List.generate(
+              10,
+              (index) => null,
+              growable: false,
+            );
+            break;
+          }
+
+        case 15:
+          {
+            quiz = data.questions15
+                .map<Question>(
+                  (question) => Question(
+                    answer: question['answer'] as String,
+                    options: (question['options'] as List)
+                        .map<String>((value) => value as String)
+                        .toList(),
+                    question: question['question'] as String,
+                  ),
+                )
+                .toList();
+
+            selectedAnswers = List.generate(
+              15,
+              (index) => null,
+              growable: false,
+            );
+            break;
+          }
+
+        case 20:
+          {
+            quiz = data.questions20
+                .map<Question>(
+                  (question) => Question(
+                    answer: question['answer'] as String,
+                    options: (question['options'] as List)
+                        .map<String>((value) => value as String)
+                        .toList(),
+                    question: question['question'] as String,
+                  ),
+                )
+                .toList();
+
+            selectedAnswers = List.generate(
+              20,
+              (index) => null,
+              growable: false,
+            );
+            break;
+          }
+      }
     }
   }
 
