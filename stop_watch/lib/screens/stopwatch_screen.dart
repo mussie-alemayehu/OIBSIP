@@ -24,8 +24,6 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       const Duration(milliseconds: 10),
       (timer) => setState(() => {}),
     );
-
-    _stopwatch.start();
   }
 
   // a function that will return a beautifully formatted text to be used as a
@@ -48,69 +46,80 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     _stopwatch.reset();
   }
 
-  List<Widget> _initialWidgets() {
+  // this is the widget that will be displayed when the stopwatch is not running
+  // and it is in its initial state
+  Widget _initialWidgets() {
     // an icon that will be used to start the stopwatch
-    return [
-      Expanded(
-        child: Tooltip(
-          message: 'Start',
-          child: InkWell(
-            onTap: _stopwatch.start,
-            child: const StartButton(),
+    return Row(
+      children: [
+        Expanded(
+          child: Tooltip(
+            message: 'Start',
+            child: InkWell(
+              onTap: _stopwatch.start,
+              child: const StartButton(),
+            ),
           ),
         ),
-      ),
-    ];
+      ],
+    );
   }
 
-  List<Widget> _stopwatchRunningWidgets() {
-    return [
-      // an icon that will be used to stop the stopwatch
-      Expanded(
-        child: Tooltip(
-          message: 'Stop',
-          child: InkWell(
-            onTap: () => _stopwatch.stop(),
-            child: const StopButton(),
+  // this is the widget that will be displayed when the stopwatch is running
+  Widget _stopwatchRunningWidgets() {
+    return Row(
+      children: [
+        // an icon that will be used to stop the stopwatch
+        Expanded(
+          child: Tooltip(
+            message: 'Stop',
+            child: InkWell(
+              onTap: () => _stopwatch.stop(),
+              child: const StopButton(),
+            ),
           ),
         ),
-      ),
-      // an icon that will be used to reset the stopwatch
-      Expanded(
-        child: Tooltip(
-          message: 'Stop and reset',
-          child: InkWell(
-            onTap: _stopAndReset,
-            child: const StopAndResetButton(),
+        // an icon that will be used to reset the stopwatch
+        Expanded(
+          child: Tooltip(
+            message: 'Stop and reset',
+            child: InkWell(
+              onTap: _stopAndReset,
+              child: const StopAndResetButton(),
+            ),
           ),
         ),
-      ),
-    ];
+      ],
+    );
   }
 
-  List<Widget> _stopwatchNotRunningWidgets() {
-    return [
-      // an icon that will be used to start the stopwatch
-      Expanded(
-        child: Tooltip(
-          message: 'Start',
-          child: InkWell(
-            onTap: _stopwatch.start,
-            child: const StartButton(),
+  // this is the widget that will be displayed when the stopwatch is not running
+  // and it is not in its initial state
+  Widget _stopwatchNotRunningWidgets() {
+    return Row(
+      children: [
+        // an icon that will be used to start the stopwatch
+        Expanded(
+          child: Tooltip(
+            message: 'Start',
+            child: InkWell(
+              onTap: _stopwatch.start,
+              child: const StartButton(),
+            ),
           ),
         ),
-      ),
-      // an icon that will be used to reset the stopwatch
-      Expanded(
-        child: Tooltip(
-          message: 'Stop and reset',
-          child: InkWell(
-            onTap: _stopAndReset,
-            child: const StopAndResetButton(),
+        // an icon that will be used to reset the stopwatch
+        Expanded(
+          child: Tooltip(
+            message: 'Stop and reset',
+            child: InkWell(
+              onTap: _stopAndReset,
+              child: const StopAndResetButton(),
+            ),
           ),
         ),
-      ),
-    ];
+      ],
+    );
   }
 
   @override
@@ -118,13 +127,24 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
-        title: const Text('Stopwatch'),
+        title: Center(
+          child: Text(
+            'Stopwatch',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // this container holds the stopwatch counter
             Container(
               height: width,
               margin: const EdgeInsets.all(32),
@@ -132,24 +152,26 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 2,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               child: Center(
                 child: Text(
                   _formattedTime(_stopwatch.elapsedMilliseconds),
-                  style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
             ),
-            Row(
-              children: _stopwatch.isRunning
-                  ? _stopwatchRunningWidgets()
-                  : _stopwatch.elapsedMilliseconds == 0
-                      ? _initialWidgets()
-                      : _stopwatchNotRunningWidgets(),
-            ),
             const SizedBox(height: 40),
+            _stopwatch.isRunning
+                ? _stopwatchRunningWidgets()
+                : _stopwatch.elapsedMilliseconds == 0
+                    ? _initialWidgets()
+                    : _stopwatchNotRunningWidgets(),
           ],
         ),
       ),

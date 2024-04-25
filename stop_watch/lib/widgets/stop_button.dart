@@ -12,14 +12,14 @@ class StopButton extends StatelessWidget {
       height: buttonHeight,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(width: 2),
+        border: Border.all(width: 1, color: Theme.of(context).primaryColor),
       ),
       child: Center(
         child: Container(
           height: buttonHeight * 0.6,
           width: buttonHeight * 0.6,
           decoration: BoxDecoration(
-            border: Border.all(width: 2),
+            color: Theme.of(context).colorScheme.error,
             borderRadius: BorderRadius.circular(8),
           ),
         ),

@@ -12,10 +12,14 @@ class StopAndResetButton extends StatelessWidget {
       height: buttonHeight,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(width: 2),
+        border: Border.all(width: 1, color: Theme.of(context).primaryColor),
       ),
-      child: const Center(
-        child: Icon(Icons.refresh_rounded, size: 32),
+      child: Center(
+        child: Icon(
+          Icons.refresh_rounded,
+          size: 32,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }

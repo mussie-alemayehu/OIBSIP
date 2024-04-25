@@ -12,7 +12,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stop Watch',
       theme: ThemeData(
-        colorScheme: const ColorScheme.light(primary: Colors.deepPurple),
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFF1E0342),
+          secondary: Color(0xFF9AC8CD),
+          tertiary: Color(0xFFE1F7F5),
+        ),
         useMaterial3: true,
       ),
       home: const StopwatchScreen(),

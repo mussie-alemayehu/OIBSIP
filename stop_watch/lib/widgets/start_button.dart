@@ -12,12 +12,16 @@ class StartButton extends StatelessWidget {
       height: buttonHeight,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(width: 2),
+        border: Border.all(width: 1, color: Theme.of(context).primaryColor),
       ),
-      child: const Center(
+      child: Center(
         child: Text(
           'Start',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );
