@@ -31,11 +31,17 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   String _formattedTime(int elapsedMilliseconds) {
     dynamic milliseconds = (elapsedMilliseconds % 1000) ~/ 10;
     dynamic seconds = (elapsedMilliseconds ~/ 1000) % 60;
-    dynamic minutes = (elapsedMilliseconds ~/ 1000) ~/ 60;
+    dynamic minutes = ((elapsedMilliseconds ~/ 1000) ~/ 60) % 60;
+    dynamic hours = ((elapsedMilliseconds ~/ 1000) ~/ 60) ~/ 60;
 
     milliseconds = milliseconds.toString().padLeft(2, '0');
     seconds = seconds.toString().padLeft(2, '0');
     minutes = minutes.toString().padLeft(2, '0');
+
+    if (hours > 0) {
+      hours = hours.toString();
+      return '$hours:$minutes:$seconds';
+    }
 
     return '$minutes:$seconds:$milliseconds';
   }
@@ -51,14 +57,14 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   Widget _initialWidgets() {
     // an icon that will be used to start the stopwatch
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Expanded(
-          child: Tooltip(
-            message: 'Start',
-            child: InkWell(
-              onTap: _stopwatch.start,
-              child: const StartButton(),
-            ),
+        Tooltip(
+          key: const ValueKey('start'),
+          message: 'Start',
+          child: InkWell(
+            onTap: _stopwatch.start,
+            child: const StartButton(),
           ),
         ),
       ],
@@ -68,26 +74,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   // this is the widget that will be displayed when the stopwatch is running
   Widget _stopwatchRunningWidgets() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         // an icon that will be used to stop the stopwatch
-        Expanded(
-          child: Tooltip(
-            message: 'Stop',
-            child: InkWell(
-              onTap: () => _stopwatch.stop(),
-              child: const StopButton(),
-            ),
+        Tooltip(
+          key: const ValueKey('stop'),
+          message: 'Stop',
+          child: InkWell(
+            onTap: () => _stopwatch.stop(),
+            child: const StopButton(),
           ),
         ),
         // an icon that will be used to reset the stopwatch
-        Expanded(
-          child: Tooltip(
-            message: 'Stop and reset',
-            child: InkWell(
-              onTap: _stopAndReset,
-              child: const StopAndResetButton(),
-            ),
-          ),
+        Tooltip(
+          key: const ValueKey('stopNReset'),
+          message: 'Stop and reset',
+          child: StopAndResetButton(_stopAndReset),
         ),
       ],
     );
@@ -97,26 +99,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   // and it is not in its initial state
   Widget _stopwatchNotRunningWidgets() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         // an icon that will be used to start the stopwatch
-        Expanded(
-          child: Tooltip(
-            message: 'Start',
-            child: InkWell(
-              onTap: _stopwatch.start,
-              child: const StartButton(),
-            ),
+        Tooltip(
+          key: const ValueKey('start'),
+          message: 'Start',
+          child: InkWell(
+            onTap: _stopwatch.start,
+            child: const StartButton(),
           ),
         ),
         // an icon that will be used to reset the stopwatch
-        Expanded(
-          child: Tooltip(
-            message: 'Stop and reset',
-            child: InkWell(
-              onTap: _stopAndReset,
-              child: const StopAndResetButton(),
-            ),
-          ),
+        Tooltip(
+          key: const ValueKey('stopNReset'),
+          message: 'Stop and reset',
+          child: StopAndResetButton(_stopAndReset),
         ),
       ],
     );

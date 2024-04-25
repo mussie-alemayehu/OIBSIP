@@ -19,7 +19,7 @@ class StopButton extends StatelessWidget {
           height: buttonHeight * 0.6,
           width: buttonHeight * 0.6,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.error,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(8),
           ),
         ),
