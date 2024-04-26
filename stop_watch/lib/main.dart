@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stop Watch',
+      title: 'Stopwatch',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
           primary: Color(0xFF1A4D2E),

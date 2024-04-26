@@ -6,6 +6,7 @@ import '../widgets/start_button.dart';
 import '../widgets/stop_button.dart';
 import '../widgets/stop_reset_button.dart';
 import '../widgets/lap_button.dart';
+import '../widgets/lap_items_list.dart';
 
 class StopwatchScreen extends StatefulWidget {
   const StopwatchScreen({super.key});
@@ -17,6 +18,9 @@ class StopwatchScreen extends StatefulWidget {
 class _StopwatchScreenState extends State<StopwatchScreen> {
   final _stopwatch = Stopwatch();
   late final Timer timer;
+
+  // a variable that will hold lap information
+  final List<Map<String, int>> _laps = [];
 
   @override
   void initState() {
@@ -48,13 +52,31 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   }
 
   // a function that will be used to stop and reset the stopwatch
+  // this function will also clear our laps information since it will not be
+  // necessary if the stopwatch is restarted
   void _stopAndReset() {
     _stopwatch.stop();
     _stopwatch.reset();
+
+    setState(() => _laps.clear());
   }
 
   // a function that will be used to add a lap
-  void _lap() {}
+  void _lap() {
+    // the lap item will have two attributes, one measures the duration since
+    // the last lap and one measures since the beginning of the stopwatch
+    final fromLast = _laps.isEmpty
+        ? _stopwatch.elapsedMilliseconds
+        : _stopwatch.elapsedMilliseconds - _laps.last['totalTime']!;
+    final totalTime = _stopwatch.elapsedMilliseconds;
+
+    setState(
+      () => _laps.add({
+        'fromLast': fromLast,
+        'totalTime': totalTime,
+      }),
+    );
+  }
 
   // this is the widget that will be displayed when the stopwatch is not running
   // and it is in its initial state
@@ -105,6 +127,18 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
+    // create a beautifully formatted text of the laps
+    final formattedLaps = _laps
+        .map<Map<String, String>>((value) {
+          return {
+            'fromLast': _formattedTime(value['fromLast']!),
+            'totalTime': _formattedTime(value['totalTime']!),
+          };
+        })
+        .toList()
+        .reversed
+        .toList();
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
@@ -123,10 +157,14 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (_laps.isNotEmpty)
+              Expanded(
+                child: LapItemsList(formattedLaps),
+              ),
             // this container holds the stopwatch counter
             Container(
               height: width,
-              margin: const EdgeInsets.all(32),
+              margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
