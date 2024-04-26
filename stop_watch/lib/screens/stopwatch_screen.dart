@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../widgets/start_button.dart';
 import '../widgets/stop_button.dart';
 import '../widgets/stop_reset_button.dart';
+import '../widgets/lap_button.dart';
 
 class StopwatchScreen extends StatefulWidget {
   const StopwatchScreen({super.key});
@@ -52,6 +53,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     _stopwatch.reset();
   }
 
+  // a function that will be used to add a lap
+  void _lap() {}
+
   // this is the widget that will be displayed when the stopwatch is not running
   // and it is in its initial state
   Widget _initialWidgets() {
@@ -59,38 +63,26 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Tooltip(
-          key: const ValueKey('start'),
-          message: 'Start',
-          child: InkWell(
-            onTap: _stopwatch.start,
-            child: const StartButton(),
-          ),
-        ),
+        StartButton(_stopwatch.start),
       ],
     );
   }
 
   // this is the widget that will be displayed when the stopwatch is running
   Widget _stopwatchRunningWidgets() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        // an icon that will be used to stop the stopwatch
-        Tooltip(
-          key: const ValueKey('stop'),
-          message: 'Stop',
-          child: InkWell(
-            onTap: () => _stopwatch.stop(),
-            child: const StopButton(),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            // an icon that will be used to stop the stopwatch
+            StopButton(_stopwatch.stop),
+            // an icon that will be used to reset the stopwatch
+            StopAndResetButton(_stopAndReset),
+          ],
         ),
-        // an icon that will be used to reset the stopwatch
-        Tooltip(
-          key: const ValueKey('stopNReset'),
-          message: 'Stop and reset',
-          child: StopAndResetButton(_stopAndReset),
-        ),
+        LapButton(_lap),
       ],
     );
   }
@@ -102,20 +94,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         // an icon that will be used to start the stopwatch
-        Tooltip(
-          key: const ValueKey('start'),
-          message: 'Start',
-          child: InkWell(
-            onTap: _stopwatch.start,
-            child: const StartButton(),
-          ),
-        ),
+        StartButton(_stopwatch.start),
         // an icon that will be used to reset the stopwatch
-        Tooltip(
-          key: const ValueKey('stopNReset'),
-          message: 'Stop and reset',
-          child: StopAndResetButton(_stopAndReset),
-        ),
+        StopAndResetButton(_stopAndReset),
       ],
     );
   }

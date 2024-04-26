@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class StopAndResetButton extends StatelessWidget {
-  final Function() stopAndReset;
+class LapButton extends StatelessWidget {
+  final void Function() loop;
 
-  const StopAndResetButton(this.stopAndReset, {super.key});
+  const LapButton(this.loop, {super.key});
 
   @override
   Widget build(BuildContext context) {
     const buttonHeight = 60.0;
 
     return Tooltip(
-      key: const ValueKey('stopNReset'),
-      message: 'Stop and reset',
+      key: const ValueKey('loop'),
+      message: 'Loop',
       child: Container(
         width: buttonHeight,
         height: buttonHeight,
@@ -20,10 +20,10 @@ class StopAndResetButton extends StatelessWidget {
           border: Border.all(width: 1, color: Theme.of(context).primaryColor),
         ),
         child: InkWell(
-          onTap: stopAndReset,
+          onTap: loop,
           child: Center(
             child: Icon(
-              Icons.refresh_rounded,
+              Icons.loop_rounded,
               size: 32,
               color: Theme.of(context).primaryColor,
             ),
