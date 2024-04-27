@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class LapButton extends StatelessWidget {
-  final void Function() loop;
+  final void Function() lap;
 
-  const LapButton(this.loop, {super.key});
+  const LapButton(this.lap, {super.key});
 
   @override
   Widget build(BuildContext context) {
     const buttonHeight = 60.0;
 
     return Tooltip(
-      key: const ValueKey('loop'),
-      message: 'Loop',
+      key: const ValueKey('lap'),
+      message: 'Lap',
       child: Container(
         width: buttonHeight,
         height: buttonHeight,
@@ -20,12 +20,11 @@ class LapButton extends StatelessWidget {
           border: Border.all(width: 1, color: Theme.of(context).primaryColor),
         ),
         child: InkWell(
-          onTap: loop,
+          onTap: lap,
           child: Center(
-            child: Icon(
-              Icons.loop_rounded,
-              size: 32,
-              color: Theme.of(context).primaryColor,
+            child: Text(
+              'Lap',
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ),
         ),

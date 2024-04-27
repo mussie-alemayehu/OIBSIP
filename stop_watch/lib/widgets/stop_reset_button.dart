@@ -22,10 +22,9 @@ class StopAndResetButton extends StatelessWidget {
         child: InkWell(
           onTap: stopAndReset,
           child: Center(
-            child: Icon(
-              Icons.refresh_rounded,
-              size: 32,
-              color: Theme.of(context).primaryColor,
+            child: Text(
+              'Reset',
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ),
         ),

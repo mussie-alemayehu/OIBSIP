@@ -15,7 +15,8 @@ class StopwatchScreen extends StatefulWidget {
   State<StopwatchScreen> createState() => _StopwatchScreenState();
 }
 
-class _StopwatchScreenState extends State<StopwatchScreen> {
+class _StopwatchScreenState extends State<StopwatchScreen>
+    with SingleTickerProviderStateMixin {
   final _stopwatch = Stopwatch();
   late final Timer timer;
 
@@ -92,20 +93,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   // this is the widget that will be displayed when the stopwatch is running
   Widget _stopwatchRunningWidgets() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // an icon that will be used to stop the stopwatch
-            StopButton(_stopwatch.stop),
-            // an icon that will be used to reset the stopwatch
-            StopAndResetButton(_stopAndReset),
-          ],
-        ),
-        LapButton(_lap),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              // an icon that will be used to stop the stopwatch
+              StopButton(_stopwatch.stop),
+              // an icon that will be used to reset the stopwatch
+              StopAndResetButton(_stopAndReset),
+            ],
+          ),
+          LapButton(_lap),
+        ],
+      ),
     );
   }
 
@@ -184,11 +187,18 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            _stopwatch.isRunning
-                ? _stopwatchRunningWidgets()
-                : _stopwatch.elapsedMilliseconds == 0
-                    ? _initialWidgets()
-                    : _stopwatchNotRunningWidgets(),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeIn,
+              constraints: BoxConstraints(
+                maxHeight: _stopwatch.isRunning ? 140 : 80,
+              ),
+              child: _stopwatch.isRunning
+                  ? _stopwatchRunningWidgets()
+                  : _stopwatch.elapsedMilliseconds == 0
+                      ? _initialWidgets()
+                      : _stopwatchNotRunningWidgets(),
+            ),
           ],
         ),
       ),

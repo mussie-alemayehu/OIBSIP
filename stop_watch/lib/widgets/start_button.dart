@@ -24,11 +24,7 @@ class StartButton extends StatelessWidget {
           child: Center(
             child: Text(
               'Start',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ),
         ),
