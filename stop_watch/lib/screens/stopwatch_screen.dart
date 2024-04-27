@@ -28,7 +28,8 @@ class _StopwatchScreenState extends State<StopwatchScreen>
     super.initState();
     timer = Timer.periodic(
       const Duration(milliseconds: 10),
-      (timer) => setState(() => {}),
+      // do setState only if the stopwatch is running
+      (timer) => _stopwatch.isRunning ? setState(() => {}) : {},
     );
   }
 
@@ -164,7 +165,7 @@ class _StopwatchScreenState extends State<StopwatchScreen>
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               height: _laps.isEmpty ? 0 : height / 3,
-              child: LapItemsList(formattedLaps),
+              child: _laps.isNotEmpty ? LapItemsList(formattedLaps) : null,
             ),
             // this container holds the stopwatch counter
             Container(
