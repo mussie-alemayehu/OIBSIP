@@ -129,6 +129,7 @@ class _StopwatchScreenState extends State<StopwatchScreen>
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     // create a beautifully formatted text of the laps
     final formattedLaps = _laps
@@ -156,17 +157,18 @@ class _StopwatchScreenState extends State<StopwatchScreen>
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (_laps.isNotEmpty)
-              Expanded(
-                child: LapItemsList(formattedLaps),
-              ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              height: _laps.isEmpty ? 0 : height / 3,
+              child: LapItemsList(formattedLaps),
+            ),
             // this container holds the stopwatch counter
             Container(
-              height: width,
+              height: width * 0.7,
               margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -186,18 +188,19 @@ class _StopwatchScreenState extends State<StopwatchScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 40),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeIn,
-              constraints: BoxConstraints(
-                maxHeight: _stopwatch.isRunning ? 140 : 80,
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                height: _stopwatch.isRunning ? 140 : 80,
+                child: _stopwatch.isRunning
+                    ? _stopwatchRunningWidgets()
+                    : _stopwatch.elapsedMilliseconds == 0
+                        ? _initialWidgets()
+                        : _stopwatchNotRunningWidgets(),
               ),
-              child: _stopwatch.isRunning
-                  ? _stopwatchRunningWidgets()
-                  : _stopwatch.elapsedMilliseconds == 0
-                      ? _initialWidgets()
-                      : _stopwatchNotRunningWidgets(),
             ),
           ],
         ),
