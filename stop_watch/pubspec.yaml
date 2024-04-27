@@ -46,6 +46,23 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_native_splash: ^2.3.11
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  image_path: dev_assets/stopwatch.png
+  web: 
+    generate: true
+    image_path: dev_assets/stopwatch.png
+
+flutter_native_splash:
+  image: dev_assets/stopwatch.png
+  color: "#9AC8CD"
+  android_12:
+    image: dev_assets/stopwatch.png
+    color: "#9AC8CD"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
