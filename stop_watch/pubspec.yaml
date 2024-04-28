@@ -51,16 +51,16 @@ dev_dependencies:
 
 flutter_launcher_icons:
   android: true
-  image_path: dev_assets/stopwatch.png
+  image_path: dev_assets/stopwatch_1.png
   web: 
     generate: true
-    image_path: dev_assets/stopwatch.png
+    image_path: dev_assets/stopwatch_1.png
 
 flutter_native_splash:
-  image: dev_assets/stopwatch.png
+  image: dev_assets/stopwatch_1.png
   color: "#9AC8CD"
   android_12:
-    image: dev_assets/stopwatch.png
+    image: dev_assets/stopwatch_1.png
     color: "#9AC8CD"
 
 

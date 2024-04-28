@@ -102,7 +102,7 @@ class _StopwatchScreenState extends State<StopwatchScreen>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // an icon that will be used to stop the stopwatch
-              StopButton(_stopwatch.stop),
+              StopButton(() => setState(_stopwatch.stop)),
               // an icon that will be used to reset the stopwatch
               StopAndResetButton(_stopAndReset),
             ],
@@ -163,7 +163,7 @@ class _StopwatchScreenState extends State<StopwatchScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 500),
               height: _laps.isEmpty ? 0 : height / 3,
               child: _laps.isNotEmpty ? LapItemsList(formattedLaps) : null,
             ),
