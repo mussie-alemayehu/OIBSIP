@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:calculator/models/button_types.dart';
 import 'package:flutter/material.dart';
 
 class Buttons extends StatelessWidget {
-  const Buttons({super.key});
+  final void Function(ButtonType type) onPressed;
+
+  const Buttons(this.onPressed, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class Buttons extends StatelessWidget {
         mainAxisExtent: buttonRadius,
         mainAxisSpacing: 12,
       ),
-      itemCount: 16,
+      itemCount: ButtonType.values.length,
       itemBuilder: (ctx, index) => Container(
         width: buttonRadius,
         decoration: BoxDecoration(
@@ -34,8 +37,10 @@ class Buttons extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.tertiary,
             shape: const CircleBorder(),
           ),
-          child: const Text('7'),
-          onPressed: () {},
+          child: Text(buttonValue[ButtonType.values[index]]!),
+          onPressed: () {
+            onPressed(ButtonType.one);
+          },
         ),
       ),
     );

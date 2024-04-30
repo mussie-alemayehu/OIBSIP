@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/buttons.dart';
+import '../models/button_types.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
@@ -12,6 +13,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  // this function will be triggered whenever a button is pressed
+  void onPressed(ButtonType type) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
                 // decoration: BoxDecoration(
 
                 // ),
-                child: const Buttons(),
+                child: Buttons(onPressed),
               ),
             ),
           ),
