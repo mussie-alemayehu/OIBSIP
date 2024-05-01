@@ -31,17 +31,12 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 12),
           Expanded(
-            child: Center(
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(12),
-                // decoration: BoxDecoration(
-
-                // ),
-                child: Buttons(onPressed),
-              ),
+            flex: 2,
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(12),
+              child: Buttons(onPressed),
             ),
           ),
         ],

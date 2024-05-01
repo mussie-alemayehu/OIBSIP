@@ -19,9 +19,9 @@ enum ButtonType {
   one,
   two,
   three,
-  equals,
+  equals, // will span two rows
   // the fifth row
-  zero,
+  zero, // will span two columns
   period,
 }
 
