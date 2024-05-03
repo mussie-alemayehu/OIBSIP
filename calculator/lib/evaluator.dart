@@ -107,6 +107,6 @@ double evaluatePostfix(List<String> postfix) {
 
   // at this point, the stack should have a single item which is the result
   // if the stack is empty at this point, there must be some error
-  if (!stack.isEmpty()) return 0;
+  if (stack.isEmpty()) return 0;
   return double.parse(stack.pop()!);
 }

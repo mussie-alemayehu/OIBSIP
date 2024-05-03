@@ -4,7 +4,7 @@ import 'package:calculator/models/button_types.dart' as types;
 import 'package:flutter/material.dart';
 
 class Buttons extends StatelessWidget {
-  final void Function(types.ButtonType type) onPressed;
+  final void Function(String value) onPressed;
 
   const Buttons(this.onPressed, {super.key});
 
@@ -53,7 +53,7 @@ class Buttons extends StatelessWidget {
                               shape: const CircleBorder(),
                             ),
                             child: FittedBox(child: Text(value)),
-                            onPressed: () => onPressed(type)),
+                            onPressed: () => onPressed(value)),
                       ),
                     );
                   },
@@ -93,7 +93,8 @@ class Buttons extends StatelessWidget {
                                   ),
                                   child: FittedBox(
                                       child: Text(lastValues[index]!)),
-                                  onPressed: () => onPressed(lastTypes[index])),
+                                  onPressed: () =>
+                                      onPressed(lastValues[index]!)),
                             ),
                           ),
                         ),
@@ -136,7 +137,7 @@ class Buttons extends StatelessWidget {
                                   child: FittedBox(
                                       child: Text(lastValues[realIndex]!)),
                                   onPressed: () => onPressed(
-                                    lastTypes[realIndex],
+                                    lastValues[realIndex]!,
                                   ),
                                 ),
                               ),
@@ -168,7 +169,7 @@ class Buttons extends StatelessWidget {
                               child: Text(
                                   types.buttonValue[types.ButtonType.equals]!)),
                           onPressed: () => onPressed(
-                            types.ButtonType.equals,
+                            '=',
                           ),
                         ),
                       ),
