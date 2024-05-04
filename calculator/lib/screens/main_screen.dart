@@ -25,15 +25,15 @@ class _MainScreenState extends State<MainScreen> {
         _resultController.clear();
       });
     } else if (value == 'DEL') {
-      // delete the last element if 'DEL' is pressed
-      if (_inputController.text.isNotEmpty) {
-        final length = _inputController.text.length;
-        _inputController.text = _inputController.text.substring(0, length - 1);
-      }
+      _deleteSingleValue();
+      // // delete the last element if 'DEL' is pressed
+      // if (_inputController.text.isNotEmpty) {
+      //   final length = _inputController.text.length;
+      //   _inputController.text = _inputController.text.substring(0, length - 1);
+      // }
     } else if (value == '=') {
     } else {
       _insertValues(value);
-      // _inputController.text += value;
     }
 
     if (_inputController.text.isNotEmpty) {
@@ -47,18 +47,60 @@ class _MainScreenState extends State<MainScreen> {
 
   // this function will be used to add values to the input
   void _insertValues(String value) {
+    // determine the position of the cursor
     final selection = _inputController.selection;
     if (selection.baseOffset == -1) {
       _inputController.text += value;
     } else {
+      // determine the beginning and end of the text
+      int base, extent;
+      if (selection.baseOffset < selection.extentOffset) {
+        base = selection.baseOffset;
+        extent = selection.extentOffset;
+      } else {
+        extent = selection.baseOffset;
+        base = selection.extentOffset;
+      }
+
       // determine the text before the cursor
-      final textBefore =
-          _inputController.text.substring(0, selection.baseOffset);
+      final textBefore = _inputController.text.substring(0, base);
 
       // determine the text after the cursor
-      final textAfter = _inputController.text.substring(selection.extentOffset);
+      final textAfter = _inputController.text.substring(extent);
 
+      // set the complete text after the new value is added to the correct position
       _inputController.text = '$textBefore$value$textAfter';
+    }
+  }
+
+  // this function will be used to delete a single character from the input
+  void _deleteSingleValue() {
+    // determine the position of the cursor
+    final selection = _inputController.selection;
+    if (selection.baseOffset == -1) {
+      if (_inputController.text.isNotEmpty) {
+        final length = _inputController.text.length;
+        _inputController.text = _inputController.text.substring(0, length - 1);
+      }
+    } else {
+      // determine the beginning and end of the text
+      int base, extent;
+      if (selection.baseOffset < selection.extentOffset) {
+        base = selection.baseOffset;
+        extent = selection.extentOffset;
+      } else {
+        extent = selection.baseOffset;
+        base = selection.extentOffset;
+      }
+      if (base == extent && base > 0) base--;
+      // determine the text before the cursor
+      final textBefore = _inputController.text.substring(0, base);
+
+      // determine the text after the cursor
+      final textAfter = _inputController.text.substring(extent);
+
+      // set the complete text after the new value is added to the correct position
+      _inputController.text = '$textBefore$textAfter';
     }
   }
 
