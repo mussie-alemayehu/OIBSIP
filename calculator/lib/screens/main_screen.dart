@@ -30,14 +30,35 @@ class _MainScreenState extends State<MainScreen> {
         final length = _inputController.text.length;
         _inputController.text = _inputController.text.substring(0, length - 1);
       }
+    } else if (value == '=') {
     } else {
-      _inputController.text += value;
+      _insertValues(value);
+      // _inputController.text += value;
     }
 
     if (_inputController.text.isNotEmpty) {
       final postfix = evaluator.convertToPostfix(_inputController.text);
       final result = evaluator.evaluatePostfix(postfix);
       _resultController.text = result.toString();
+    } else {
+      _resultController.text = '0';
+    }
+  }
+
+  // this function will be used to add values to the input
+  void _insertValues(String value) {
+    final selection = _inputController.selection;
+    if (selection.baseOffset == -1) {
+      _inputController.text += value;
+    } else {
+      // determine the text before the cursor
+      final textBefore =
+          _inputController.text.substring(0, selection.baseOffset);
+
+      // determine the text after the cursor
+      final textAfter = _inputController.text.substring(selection.extentOffset);
+
+      _inputController.text = '$textBefore$value$textAfter';
     }
   }
 
@@ -60,7 +81,9 @@ class _MainScreenState extends State<MainScreen> {
                     // to hold the user input
                     Expanded(
                       child: TextField(
-                        readOnly: true,
+                        textAlign: TextAlign.right,
+                        keyboardType: TextInputType.number,
+                        // readOnly: true,
                         controller: _inputController,
                         style: TextStyle(
                           fontSize: 24,
@@ -75,6 +98,7 @@ class _MainScreenState extends State<MainScreen> {
                     Expanded(
                       child: TextField(
                         readOnly: true,
+                        textAlign: TextAlign.right,
                         controller: _resultController,
                         style: TextStyle(
                           fontSize: 24,
