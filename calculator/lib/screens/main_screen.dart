@@ -15,6 +15,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final _inputController = TextEditingController();
   final _resultController = TextEditingController();
+  bool _clearNext = false;
 
   // this function will be triggered whenever a button is pressed
   void onPressed(String value) {
@@ -25,19 +26,22 @@ class _MainScreenState extends State<MainScreen> {
         _resultController.clear();
       });
     } else if (value == 'DEL') {
+      // delete a single value if 'DEL' is pressed
       _deleteSingleValue();
-      // // delete the last element if 'DEL' is pressed
-      // if (_inputController.text.isNotEmpty) {
-      //   final length = _inputController.text.length;
-      //   _inputController.text = _inputController.text.substring(0, length - 1);
-      // }
     } else if (value == '=') {
+      // put the result in the input field and clear the result field
+      _inputController.text = _resultController.text;
+      _resultController.clear();
+      _clearNext = true;
     } else {
+      // clear the input field if the previous button was '='
+      if (_clearNext) _inputController.clear();
       _insertValues(value);
+      _clearNext = false;
     }
     final postfix = evaluator.convertToPostfix(_inputController.text);
 
-    if (postfix.isNotEmpty) {
+    if (postfix.isNotEmpty && !_clearNext) {
       final result = evaluator.evaluatePostfix(postfix);
       _resultController.text = result == null ? '' : result.toString();
     } else {
