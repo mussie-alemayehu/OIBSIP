@@ -48,65 +48,75 @@ List<String> convertToPostfix(String expression) {
   final stack = _ExpressionStack();
   final postFix = <String>[];
 
-  for (int i = 0; i < expression.length; i++) {
-    var current = expression[i];
+  try {
+    for (int i = 0; i < expression.length; i++) {
+      var current = expression[i];
 
-    // decide the number of digits in the operand
-    while (i < expression.length - 1 &&
-        current != ' ' &&
-        !_operators.contains(current) &&
-        !_operators.contains(expression[i + 1])) {
-      current = '$current${expression[++i]}';
-    }
-
-    // if the current value is a number, add it to the stack
-    if (_isNumber(current)) {
-      postFix.add(current);
-    } else if (current == '-' ||
-        current == '+' ||
-        current == '*' ||
-        current == '/') {
-      // while the first operator has bigger precedence and the stack is not empty
-      while (!stack.isEmpty() && _isFirstGreater(stack.peek()!, current)) {
-        postFix.add(stack.pop()!);
+      // decide the number of digits in the operand
+      while (i < expression.length - 1 &&
+          current != ' ' &&
+          !_operators.contains(current) &&
+          !_operators.contains(expression[i + 1])) {
+        current = '$current${expression[++i]}';
       }
-      stack.push(current);
+
+      // if the current value is a number, add it to the stack
+      if (_isNumber(current)) {
+        postFix.add(current);
+      } else if (current == '-' ||
+          current == '+' ||
+          current == '*' ||
+          current == '/') {
+        // while the first operator has bigger precedence and the stack is not empty
+        while (!stack.isEmpty() && _isFirstGreater(stack.peek()!, current)) {
+          postFix.add(stack.pop()!);
+        }
+        stack.push(current);
+      }
     }
-  }
 
-  while (!stack.isEmpty()) {
-    postFix.add(stack.pop()!);
-  }
+    while (!stack.isEmpty()) {
+      postFix.add(stack.pop()!);
+    }
 
-  return postFix;
+    return postFix;
+  } catch (error) {
+    // if there is an error while converting to postfix, return an empty list
+    return [];
+  }
 }
 
-double evaluatePostfix(List<String> postfix) {
+double? evaluatePostfix(List<String> postfix) {
   final stack = _ExpressionStack();
 
-  for (var exp in postfix) {
-    if (_isNumber(exp)) {
-      stack.push(exp);
-    } else if (!stack.isEmpty() &&
-        (exp == '-' || exp == '+' || exp == '*' || exp == '/')) {
-      double operand1 = double.parse(stack.pop()!);
-      double operand2 = double.parse(stack.pop()!);
-      if (exp == '-') {
-        stack.push('${operand2 - operand1}');
-      } else if (exp == '+') {
-        stack.push('${operand2 + operand1}');
-      } else if (exp == '/') {
-        stack.push('${operand2 / operand1}');
-      } else if (exp == '*') {
-        stack.push('${operand2 * operand1}');
+  try {
+    for (var exp in postfix) {
+      if (_isNumber(exp)) {
+        stack.push(exp);
+      } else if (!stack.isEmpty() &&
+          (exp == '-' || exp == '+' || exp == '*' || exp == '/')) {
+        double operand1 = double.parse(stack.pop()!);
+        double operand2 = double.parse(stack.pop()!);
+        if (exp == '-') {
+          stack.push('${operand2 - operand1}');
+        } else if (exp == '+') {
+          stack.push('${operand2 + operand1}');
+        } else if (exp == '/') {
+          stack.push('${operand2 / operand1}');
+        } else if (exp == '*') {
+          stack.push('${operand2 * operand1}');
+        }
+      } else {
+        break;
       }
-    } else {
-      break;
     }
-  }
 
-  // at this point, the stack should have a single item which is the result
-  // if the stack is empty at this point, there must be some error
-  if (stack.isEmpty()) return 0;
-  return double.parse(stack.pop()!);
+    // at this point, the stack should have a single item which is the result
+    // if the stack is empty at this point, there must be some error
+    if (stack.isEmpty()) return 0;
+    return double.parse(stack.pop()!);
+  } catch (error) {
+    // if there is an error while evaluating postfix, return null
+    return null;
+  }
 }

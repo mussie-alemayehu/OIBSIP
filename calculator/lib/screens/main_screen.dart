@@ -35,13 +35,13 @@ class _MainScreenState extends State<MainScreen> {
     } else {
       _insertValues(value);
     }
+    final postfix = evaluator.convertToPostfix(_inputController.text);
 
-    if (_inputController.text.isNotEmpty) {
-      final postfix = evaluator.convertToPostfix(_inputController.text);
+    if (postfix.isNotEmpty) {
       final result = evaluator.evaluatePostfix(postfix);
-      _resultController.text = result.toString();
+      _resultController.text = result == null ? '' : result.toString();
     } else {
-      _resultController.text = '0';
+      _resultController.text = '';
     }
   }
 
