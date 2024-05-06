@@ -17,6 +17,13 @@ class _MainScreenState extends State<MainScreen> {
   final _resultController = TextEditingController();
   bool _clearNext = false;
 
+  @override
+  void dispose() {
+    super.dispose();
+    _inputController.dispose();
+    _resultController.dispose();
+  }
+
   // this function will be triggered whenever a button is pressed
   void onPressed(String value) {
     if (value == 'AC') {
@@ -25,8 +32,8 @@ class _MainScreenState extends State<MainScreen> {
         _inputController.clear();
         _resultController.clear();
       });
-    } else if (value == 'DEL') {
-      // delete a single value if 'DEL' is pressed
+    } else if (value == '⌫') {
+      // delete a single value if '⌫' is pressed
       _deleteSingleValue();
     } else if (value == '=') {
       // put the result in the input field and clear the result field
@@ -39,11 +46,22 @@ class _MainScreenState extends State<MainScreen> {
       _insertValues(value);
       _clearNext = false;
     }
-    final postfix = evaluator.convertToPostfix(_inputController.text);
+    final exp = _inputController.text;
+    final postfix = evaluator.convertToPostfix(exp);
 
     if (postfix.isNotEmpty && !_clearNext) {
-      final result = evaluator.evaluatePostfix(postfix);
-      _resultController.text = result == null ? '' : result.toString();
+      dynamic result = evaluator.evaluatePostfix(postfix);
+      if (result == null) {
+        _resultController.text = '';
+      } else {
+        // change result to String
+        result = result.toString();
+
+        // don't display the final 2 characters if the result ends with '.0'
+        _resultController.text = (result as String).endsWith('.0')
+            ? result.substring(0, result.length - 2)
+            : result;
+      }
     } else {
       _resultController.text = '';
     }
@@ -132,7 +150,7 @@ class _MainScreenState extends State<MainScreen> {
                         // readOnly: true,
                         controller: _inputController,
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 32,
                           color: Theme.of(context).primaryColor,
                         ),
                         decoration: const InputDecoration(
@@ -147,8 +165,9 @@ class _MainScreenState extends State<MainScreen> {
                         textAlign: TextAlign.right,
                         controller: _resultController,
                         style: TextStyle(
-                          fontSize: 24,
-                          color: Theme.of(context).primaryColor,
+                          fontSize: 20,
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.5),
                         ),
                         decoration: const InputDecoration(
                           border: InputBorder.none,

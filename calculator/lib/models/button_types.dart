@@ -37,7 +37,7 @@ const Map<ButtonType, String> buttonValue = {
   ButtonType.eight: '8',
   ButtonType.nine: '9',
   ButtonType.period: '.',
-  ButtonType.delete: 'DEL',
+  ButtonType.delete: '⌫',
   ButtonType.add: '+',
   ButtonType.subtract: '-',
   ButtonType.multiply: '*',

@@ -16,6 +16,9 @@ class _ExpressionStack {
 
   // to check whether the stack is empty or not
   bool isEmpty() => _stack.isEmpty;
+
+  // to clear the stack
+  void clear() => _stack.clear();
 }
 
 // define numbers and operators
@@ -102,6 +105,11 @@ double? evaluatePostfix(List<String> postfix) {
         } else if (exp == '+') {
           stack.push('${operand2 + operand1}');
         } else if (exp == '/') {
+          // if required to divide by 0, return nothing
+          if (operand1 == 0) {
+            stack.clear();
+            break;
+          }
           stack.push('${operand2 / operand1}');
         } else if (exp == '*') {
           stack.push('${operand2 * operand1}');
@@ -114,7 +122,8 @@ double? evaluatePostfix(List<String> postfix) {
     // at this point, the stack should have a single item which is the result
     // if the stack is empty at this point, there must be some error
     if (stack.isEmpty()) return 0;
-    return double.parse(stack.pop()!);
+    final result = double.parse(stack.pop()!);
+    return result;
   } catch (error) {
     // if there is an error while evaluating postfix, return null
     return null;
