@@ -69,10 +69,15 @@ class _MainScreenState extends State<MainScreen> {
 
   // this function will be used to add values to the input
   void _insertValues(String value) {
+    String textBefore;
+    String textAfter;
     // determine the position of the cursor
     final selection = _inputController.selection;
     if (selection.baseOffset == -1) {
-      _inputController.text += value;
+      // if a position is not selected, use the entire input text as the text
+      // before the input
+      textBefore = _inputController.text;
+      textAfter = '';
     } else {
       // determine the beginning and end of the text
       int base, extent;
@@ -85,14 +90,44 @@ class _MainScreenState extends State<MainScreen> {
       }
 
       // determine the text before the cursor
-      final textBefore = _inputController.text.substring(0, base);
+      textBefore = _inputController.text.substring(0, base);
 
       // determine the text after the cursor
-      final textAfter = _inputController.text.substring(extent);
-
-      // set the complete text after the new value is added to the correct position
-      _inputController.text = '$textBefore$value$textAfter';
+      textAfter = _inputController.text.substring(extent);
     }
+
+    // set the complete text after the new value is added to the correct position
+    if (_isCharAllowedHere(
+      char: value,
+      textBefore: textBefore,
+      textAfter: textAfter,
+    )) _inputController.text = '$textBefore$value$textAfter';
+  }
+
+  // to check whether the given input character is allowed in the given position
+  bool _isCharAllowedHere({
+    required String char,
+    required String textBefore,
+    String textAfter = '',
+  }) {
+    const doublingNotAllowed = ['.', '+', '-', '*', '/'];
+    // if the given character is among the items in the given list and if the
+    // text before the given position ends or the text after the given position
+    // starts with one of the values given above, we cannot add the given character
+    if (doublingNotAllowed.contains(char) &&
+        (doublingNotAllowed.contains(
+              textBefore.substring(textBefore.length - 1),
+            ) ||
+            (textAfter.isNotEmpty &&
+                doublingNotAllowed.contains(
+                  textAfter.substring(0, 1),
+                )))) {
+      return false;
+    }
+    // print()
+    // print(textBefore.substring(textBefore.length - 1));
+    // print(textAfter.substring(textAfter.length - 1));
+    return true;
   }
 
   // this function will be used to delete a single character from the input
