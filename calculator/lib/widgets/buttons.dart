@@ -34,7 +34,7 @@ class Buttons extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
-                  outdex == 4 ? 2 : 4,
+                  4,
                   (index) {
                     final type = buttonTypes[(outdex * 4) + index];
                     final value =
@@ -48,8 +48,16 @@ class Buttons extends StatelessWidget {
                         margin: const EdgeInsets.all(4),
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.tertiary,
+                              backgroundColor: outdex == 0
+                                  ? Theme.of(context).colorScheme.secondary
+                                  : index == 3
+                                      ? Theme.of(context).colorScheme.secondary
+                                      : Theme.of(context).colorScheme.tertiary,
+                              foregroundColor: outdex == 0
+                                  ? Theme.of(context).colorScheme.background
+                                  : index == 3
+                                      ? Theme.of(context).colorScheme.background
+                                      : Theme.of(context).colorScheme.primary,
                               shape: const CircleBorder(),
                             ),
                             child: FittedBox(child: Text(value)),
@@ -126,6 +134,8 @@ class Buttons extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                         Theme.of(context).colorScheme.tertiary,
+                                    foregroundColor:
+                                        Theme.of(context).primaryColor,
                                     // shape should not be circle for zero button
                                     shape: zero
                                         ? RoundedRectangleBorder(
@@ -159,6 +169,8 @@ class Buttons extends StatelessWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
                                 Theme.of(context).colorScheme.tertiary,
                             // shape should not be circle for equal button
                             shape: RoundedRectangleBorder(
@@ -166,8 +178,11 @@ class Buttons extends StatelessWidget {
                             ),
                           ),
                           child: FittedBox(
-                              child: Text(
-                                  types.buttonValue[types.ButtonType.equals]!)),
+                            child: Text(
+                              types.buttonValue[types.ButtonType.equals]!,
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                          ),
                           onPressed: () => onPressed(
                             '=',
                           ),
