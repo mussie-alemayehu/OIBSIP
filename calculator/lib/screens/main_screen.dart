@@ -96,7 +96,8 @@ class _MainScreenState extends State<MainScreen> {
                       child: TextField(
                         textAlign: TextAlign.right,
                         keyboardType: TextInputType.number,
-                        // readOnly: true,
+                        readOnly: true,
+                        showCursor: true,
                         controller: _inputController,
                         style: TextStyle(
                           fontSize: 32,
