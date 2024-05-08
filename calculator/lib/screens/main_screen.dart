@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/buttons.dart';
 import '../evaluator.dart' as evaluator;
+import '../functions/functions.dart' as functions;
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
@@ -34,7 +35,10 @@ class _MainScreenState extends State<MainScreen> {
       });
     } else if (value == '⌫') {
       // delete a single value if '⌫' is pressed
-      _deleteSingleValue();
+      functions.deleteSingleValue(
+        inputController: _inputController,
+        resultController: _resultController,
+      );
     } else if (value == '=') {
       // put the result in the input field and clear the result field
       _inputController.text = _resultController.text;
@@ -43,7 +47,11 @@ class _MainScreenState extends State<MainScreen> {
     } else {
       // clear the input field if the previous button was '='
       if (_clearNext) _inputController.clear();
-      _insertValues(value);
+      functions.insertValues(
+        value: value,
+        inputController: _inputController,
+        resultController: _resultController,
+      );
       _clearNext = false;
     }
     final exp = _inputController.text;
@@ -64,100 +72,6 @@ class _MainScreenState extends State<MainScreen> {
       }
     } else {
       _resultController.text = '';
-    }
-  }
-
-  // this function will be used to add values to the input
-  void _insertValues(String value) {
-    String textBefore;
-    String textAfter;
-    // determine the position of the cursor
-    final selection = _inputController.selection;
-    if (selection.baseOffset == -1) {
-      // if a position is not selected, use the entire input text as the text
-      // before the input
-      textBefore = _inputController.text;
-      textAfter = '';
-    } else {
-      // determine the beginning and end of the text
-      int base, extent;
-      if (selection.baseOffset < selection.extentOffset) {
-        base = selection.baseOffset;
-        extent = selection.extentOffset;
-      } else {
-        extent = selection.baseOffset;
-        base = selection.extentOffset;
-      }
-
-      // determine the text before the cursor
-      textBefore = _inputController.text.substring(0, base);
-
-      // determine the text after the cursor
-      textAfter = _inputController.text.substring(extent);
-    }
-
-    // set the complete text after the new value is added to the correct position
-    if (_isCharAllowedHere(
-      char: value,
-      textBefore: textBefore,
-      textAfter: textAfter,
-    )) _inputController.text = '$textBefore$value$textAfter';
-  }
-
-  // to check whether the given input character is allowed in the given position
-  bool _isCharAllowedHere({
-    required String char,
-    required String textBefore,
-    String textAfter = '',
-  }) {
-    const doublingNotAllowed = ['.', '+', '-', '*', '/'];
-    // if the given character is among the items in the given list and if the
-    // text before the given position ends or the text after the given position
-    // starts with one of the values given above, we cannot add the given character
-    if (doublingNotAllowed.contains(char) &&
-        (doublingNotAllowed.contains(
-              textBefore.substring(textBefore.length - 1),
-            ) ||
-            (textAfter.isNotEmpty &&
-                doublingNotAllowed.contains(
-                  textAfter.substring(0, 1),
-                )))) {
-      return false;
-    }
-    // print()
-    // print(textBefore.substring(textBefore.length - 1));
-    // print(textAfter.substring(textAfter.length - 1));
-    return true;
-  }
-
-  // this function will be used to delete a single character from the input
-  void _deleteSingleValue() {
-    // determine the position of the cursor
-    final selection = _inputController.selection;
-    if (selection.baseOffset == -1) {
-      if (_inputController.text.isNotEmpty) {
-        final length = _inputController.text.length;
-        _inputController.text = _inputController.text.substring(0, length - 1);
-      }
-    } else {
-      // determine the beginning and end of the text
-      int base, extent;
-      if (selection.baseOffset < selection.extentOffset) {
-        base = selection.baseOffset;
-        extent = selection.extentOffset;
-      } else {
-        extent = selection.baseOffset;
-        base = selection.extentOffset;
-      }
-      if (base == extent && base > 0) base--;
-      // determine the text before the cursor
-      final textBefore = _inputController.text.substring(0, base);
-
-      // determine the text after the cursor
-      final textAfter = _inputController.text.substring(extent);
-
-      // set the complete text after the new value is added to the correct position
-      _inputController.text = '$textBefore$textAfter';
     }
   }
 
