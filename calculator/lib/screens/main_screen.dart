@@ -77,12 +77,19 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final topInset = MediaQuery.of(context).size.height * 0.05;
+
     return Scaffold(
       body: Column(
         children: [
           Expanded(
             child: Container(
-              margin: const EdgeInsets.all(12),
+              margin: EdgeInsets.only(
+                top: topInset + 12,
+                right: 12,
+                bottom: 12,
+                left: 12,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.tertiary,
                 borderRadius: BorderRadius.circular(12),
