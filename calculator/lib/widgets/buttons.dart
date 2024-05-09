@@ -60,7 +60,15 @@ class Buttons extends StatelessWidget {
                                       : Theme.of(context).colorScheme.primary,
                               shape: const CircleBorder(),
                             ),
-                            child: FittedBox(child: Text(value)),
+                            child: FittedBox(
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                             onPressed: () => onPressed(value)),
                       ),
                     );
@@ -100,7 +108,14 @@ class Buttons extends StatelessWidget {
                                     shape: const CircleBorder(),
                                   ),
                                   child: FittedBox(
-                                      child: Text(lastValues[index]!)),
+                                    child: Text(
+                                      lastValues[index]!,
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                   onPressed: () =>
                                       onPressed(lastValues[index]!)),
                             ),
@@ -145,7 +160,14 @@ class Buttons extends StatelessWidget {
                                         : const CircleBorder(),
                                   ),
                                   child: FittedBox(
-                                      child: Text(lastValues[realIndex]!)),
+                                    child: Text(
+                                      lastValues[realIndex]!,
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                   onPressed: () => onPressed(
                                     lastValues[realIndex]!,
                                   ),
@@ -180,7 +202,10 @@ class Buttons extends StatelessWidget {
                           child: FittedBox(
                             child: Text(
                               types.buttonValue[types.ButtonType.equals]!,
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           onPressed: () => onPressed(
