@@ -12,19 +12,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // a linear gradient that will be used to decorate the clickable containers
-  LinearGradient _linearGradient() {
-    return LinearGradient(
-      begin: Alignment.bottomLeft,
-      end: Alignment.topRight,
-      colors: [
-        Theme.of(context).colorScheme.onPrimary,
-        Theme.of(context).primaryColor.withOpacity(0.4),
-        Theme.of(context).primaryColor.withOpacity(0.1),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,11 +72,11 @@ class _MainScreenState extends State<MainScreen> {
                               child: Container(
                                 width: double.infinity,
                                 height: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(32),
                                   ),
-                                  gradient: _linearGradient(),
+                                  color: Color(0xFF5F6F65),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -116,11 +103,11 @@ class _MainScreenState extends State<MainScreen> {
                               child: Container(
                                 width: double.infinity,
                                 height: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(32),
                                   ),
-                                  gradient: _linearGradient(),
+                                  color: Color(0xFF4F1787),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -154,18 +141,15 @@ class _MainScreenState extends State<MainScreen> {
                               child: Container(
                                 width: double.infinity,
                                 height: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: _linearGradient(),
-                                ),
+                                color: const Color(0xFFEF5A6F),
                                 child: Center(
                                   child: Text(
                                     '15',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 40,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                   ),
                                 ),
@@ -182,18 +166,15 @@ class _MainScreenState extends State<MainScreen> {
                               child: Container(
                                 width: double.infinity,
                                 height: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: _linearGradient(),
-                                ),
+                                color: const Color(0xFF597445),
                                 child: Center(
                                   child: Text(
                                     '20',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 40,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                   ),
                                 ),
